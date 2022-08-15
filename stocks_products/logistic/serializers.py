@@ -49,11 +49,11 @@ class StockSerializer(serializers.ModelSerializer):
         stock = super().update(instance, validated_data)
 
         for position in positions:
-            obj, create = StockProduct.objects.update_or_create(
+            StockProduct.objects.update_or_create(
                 stock=instance,
                 product=position['product'],
                 defaults=position
-            )
+            ).save()
 
         # здесь вам надо обновить связанные таблицы
         # в нашем случае: таблицу StockProduct
